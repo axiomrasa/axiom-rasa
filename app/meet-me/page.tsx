@@ -1,86 +1,122 @@
 'use client';
 
+/**
+ * @module MeetMe_Profile
+ * @description High-fidelity FUI node with stable navigation and enhanced typography.
+ */
+
 import { motion } from 'framer-motion';
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
+
+const GLITCH_VARIANTS = {
+  initial: { x: 0, opacity: 1 },
+  animate: {
+    x: [0, -1, 1, 0],
+    opacity: [1, 0.9, 1],
+    transition: {
+      duration: 0.25,
+      repeat: Infinity,
+      repeatDelay: 5,
+    },
+  },
+};
 
 export default function MeetMe() {
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: { 
-      opacity: 1,
-      transition: { staggerChildren: 0.1, delayChildren: 0.3 }
-    }
-  };
+  const [timestamp, setTimestamp] = useState('');
 
-  const itemVariants = {
-    hidden: { opacity: 0, x: -10 },
-    visible: { opacity: 1, x: 0 }
-  };
+  useEffect(() => {
+    const updateClock = () => {
+      setTimestamp(new Date().toLocaleTimeString('en-GB', { hour12: false }));
+    };
+    updateClock();
+    const interval = setInterval(updateClock, 1000);
+    return () => clearInterval(interval);
+  }, []);
 
   return (
-    <main className="min-h-screen flex flex-col items-center justify-center p-6 bg-black text-zinc-400 font-mono">
+    <main className="min-h-screen flex items-center justify-center bg-[#050505] text-zinc-400 font-mono relative overflow-hidden p-6">
+      
+      {/* Background Ambience */}
       <motion.div 
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
-        className="max-w-2xl w-full border border-zinc-900 bg-zinc-950/40 p-8 md:p-12 relative overflow-hidden"
+        animate={{ backgroundPosition: ["0px 0px", "40px 40px"] }}
+        transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+        className="absolute inset-0 pointer-events-none opacity-[0.1]"
+        style={{ 
+          backgroundImage: `
+            linear-gradient(to right, #4c1d95 1px, transparent 1px),
+            linear-gradient(to bottom, #1e3a8a 1px, transparent 1px)
+          `,
+          backgroundSize: '40px 40px' 
+        }}
+      />
+
+      <motion.div 
+        {...GLITCH_VARIANTS}
+        className="relative w-full max-w-lg border border-zinc-900 bg-black/70 backdrop-blur-3xl p-12 md:p-16 shadow-2xl"
       >
-        {/* Aesthetic Corner Accent */}
-        <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-white/30" />
-        <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-white/30" />
+        {/* Frame Markers */}
+        <div className="absolute top-0 left-0 w-8 h-[1px] bg-purple-500/30" />
+        <div className="absolute top-0 left-0 w-[1px] h-8 bg-blue-500/30" />
+        <div className="absolute bottom-0 right-0 w-8 h-[1px] bg-blue-500/30" />
+        <div className="absolute bottom-0 right-0 w-[1px] h-8 bg-purple-500/30" />
 
-        {/* Header Section */}
-        <motion.div variants={itemVariants} className="mb-12">
-          <h1 className="text-white text-xl md:text-2xl font-bold tracking-tighter uppercase mb-2">
-            Subject_Profile: Axiom Rasa
+        {/* Identity Header */}
+        <header className="mb-14 text-center">
+          <h1 className="text-white text-4xl md:text-5xl font-black tracking-tighter lowercase mb-6 drop-shadow-[0_0_20px_rgba(76,29,149,0.3)]">
+            axiom rasa
           </h1>
-          <div className="h-px w-full bg-gradient-to-r from-zinc-800 to-transparent" />
-        </motion.div>
+          <div className="text-zinc-500 text-[11px] uppercase tracking-[0.5em] mb-2 italic font-bold">focus</div>
+          <p className="text-zinc-200 text-[12px] uppercase tracking-widest leading-relaxed">
+            creative technology // dsp // generative art
+          </p>
+        </header>
 
-        {/* Technical Data Section */}
-        <div className="space-y-6 mb-12">
-          <motion.div variants={itemVariants} className="grid grid-cols-1 md:grid-cols-3 gap-1">
-            <span className="text-zinc-600 text-xs uppercase tracking-widest">Position:</span>
-            <span className="md:col-span-2 text-zinc-200">Creative Technologist</span>
-          </motion.div>
-
-          <motion.div variants={itemVariants} className="grid grid-cols-1 md:grid-cols-3 gap-1">
-            <span className="text-zinc-600 text-xs uppercase tracking-widest">Specialization:</span>
-            <span className="md:col-span-2 text-zinc-200 uppercase">DSP / Generative Systems / UI Engineering</span>
-          </motion.div>
-
-          <motion.div variants={itemVariants} className="pt-4 border-t border-zinc-900">
-            <p className="text-sm leading-relaxed italic text-zinc-500">
-              "Engineering digital environments where technical precision meets high-fidelity aesthetics. I build interactive systems that function as instruments, bridging the gap between abstract logic and sensory experience."
-            </p>
-          </motion.div>
-        </div>
-
-        {/* External Uplinks (Socials) */}
-        <motion.div variants={itemVariants} className="space-y-3 mb-12">
-          <h3 className="text-[10px] text-zinc-600 tracking-[0.4em] uppercase mb-4">External_Uplinks:</h3>
-          <div className="flex flex-col gap-2">
-            <a href="https://instagram.com/axiomrasa" target="_blank" rel="noopener noreferrer" className="text-xs hover:text-white transition-colors flex items-center gap-2 group">
-              <span className="text-zinc-800 group-hover:text-cyan-500">[{'>'}]</span> INSTAGRAM / @axiomrasa
-            </a>
-            <a href="https://github.com/axiomrasa" target="_blank" rel="noopener noreferrer" className="text-xs hover:text-white transition-colors flex items-center gap-2 group">
-              <span className="text-zinc-800 group-hover:text-cyan-500">[{'>'}]</span> GITHUB / Source_Logs
-            </a>
-            <a href="https://linkedin.com/in/axiomrasa" target="_blank" rel="noopener noreferrer" className="text-xs hover:text-white transition-colors flex items-center gap-2 group">
-              <span className="text-zinc-800 group-hover:text-cyan-500">[{'>'}]</span> LINKEDIN / Professional_Sync
+        {/* Data Matrix */}
+        <div className="space-y-10 mb-14 border-y border-zinc-900/50 py-12">
+          <div className="flex justify-between items-center group">
+            <span className="text-zinc-700 text-[10px] uppercase tracking-[0.5em] italic font-bold">repository</span>
+            <a href="https://github.com/axiomrasa" target="_blank" rel="noreferrer"
+               className="text-sm text-zinc-400 hover:text-white transition-all duration-300 uppercase tracking-widest border-b border-transparent hover:border-purple-500 pb-1">
+              github.log
             </a>
           </div>
-        </motion.div>
+          
+          <div className="flex justify-between items-center group">
+            <span className="text-zinc-700 text-[10px] uppercase tracking-[0.5em] italic font-bold">business_id</span>
+            <a href="https://linkedin.com/in/buse-ceren-demir-58a20823b" target="_blank" rel="noreferrer"
+               className="text-sm text-zinc-400 hover:text-white transition-all duration-300 uppercase tracking-widest border-b border-transparent hover:border-blue-500 pb-1">
+              linkedin.sync
+            </a>
+          </div>
+        </div>
 
-        {/* Navigation Section */}
-        <motion.div variants={itemVariants} className="flex justify-start">
-          <Link href="/">
-            <button className="group text-[10px] tracking-[0.5em] text-zinc-600 hover:text-white transition-all uppercase flex items-center gap-2">
-              <span className="group-hover:-translate-x-1 transition-transform inline-block">{'<<<'}</span> REVERT_TO_ROOT
-            </button>
+        {/* Footer Navigation */}
+        <footer className="flex flex-col items-center gap-10">
+          <Link href="/?session=active" prefetch={true}>
+            <motion.button 
+              whileHover={{ 
+                y: -2, 
+                color: "#ffffff",
+                textShadow: "0 0 15px rgba(255,255,255,0.8)"
+              }}
+              whileTap={{ scale: 0.95 }}
+              className="text-zinc-600 text-[14px] tracking-[0.6em] uppercase font-bold transition-all duration-300 outline-none"
+            >
+              [ back_to_source ]
+            </motion.button>
           </Link>
-        </motion.div>
+          
+          <div className="text-[10px] text-zinc-800 tracking-[0.3em] uppercase text-center leading-loose">
+            TIME_SYNC: {timestamp} <br />
+            STATUS: STATIC
+          </div>
+        </footer>
       </motion.div>
+
+      {/* Screen Scanners */}
+      <div className="absolute inset-0 pointer-events-none bg-[length:100%_4px] opacity-[0.02]" 
+           style={{ backgroundImage: `linear-gradient(rgba(255,255,255,0) 50%, rgba(255,255,255,0.1) 50%)` }} />
     </main>
   );
 }
