@@ -1,14 +1,19 @@
 'use client';
 
 /**
- * @module MeetMe_Profile
- * @description High-fidelity FUI node with stable navigation and enhanced typography.
+ * @module MeetMe_Node
+ * @description High-fidelity identity node within the Rasa Core ecosystem.
+ * Features temporal synchronization and glitch-variant motion logic.
  */
 
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
+/**
+ * @constant GLITCH_VARIANTS
+ * @description Aesthetic distortion parameters for FUI immersion.
+ */
 const GLITCH_VARIANTS = {
   initial: { x: 0, opacity: 1 },
   animate: {
@@ -22,6 +27,10 @@ const GLITCH_VARIANTS = {
   },
 };
 
+/**
+ * @function MeetMe
+ * @description Renders the primary profile interface with real-time telemetry.
+ */
 export default function MeetMe() {
   const [timestamp, setTimestamp] = useState('');
 
@@ -37,7 +46,7 @@ export default function MeetMe() {
   return (
     <main className="min-h-screen flex items-center justify-center bg-[#050505] text-zinc-400 font-mono relative overflow-hidden p-6">
       
-      {/* Background Ambience */}
+      {/* Visual Layer: Ambient Matrix */}
       <motion.div 
         animate={{ backgroundPosition: ["0px 0px", "40px 40px"] }}
         transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
@@ -55,13 +64,13 @@ export default function MeetMe() {
         {...GLITCH_VARIANTS}
         className="relative w-full max-w-lg border border-zinc-900 bg-black/70 backdrop-blur-3xl p-12 md:p-16 shadow-2xl"
       >
-        {/* Frame Markers */}
+        {/* UI Component: Frame Markers */}
         <div className="absolute top-0 left-0 w-8 h-[1px] bg-purple-500/30" />
         <div className="absolute top-0 left-0 w-[1px] h-8 bg-blue-500/30" />
         <div className="absolute bottom-0 right-0 w-8 h-[1px] bg-blue-500/30" />
         <div className="absolute bottom-0 right-0 w-[1px] h-8 bg-purple-500/30" />
 
-        {/* Identity Header */}
+        {/* Section: Identity Header */}
         <header className="mb-14 text-center">
           <h1 className="text-white text-4xl md:text-5xl font-black tracking-tighter lowercase mb-6 drop-shadow-[0_0_20px_rgba(76,29,149,0.3)]">
             axiom rasa
@@ -72,7 +81,7 @@ export default function MeetMe() {
           </p>
         </header>
 
-        {/* Data Matrix */}
+        {/* Section: Data Matrix Links */}
         <div className="space-y-10 mb-14 border-y border-zinc-900/50 py-12">
           <div className="flex justify-between items-center group">
             <span className="text-zinc-700 text-[10px] uppercase tracking-[0.5em] italic font-bold">repository</span>
@@ -91,7 +100,7 @@ export default function MeetMe() {
           </div>
         </div>
 
-        {/* Footer Navigation */}
+        {/* Section: Navigation & Telemetry */}
         <footer className="flex flex-col items-center gap-10">
           <Link href="/?session=active" prefetch={true}>
             <motion.button 
@@ -114,7 +123,7 @@ export default function MeetMe() {
         </footer>
       </motion.div>
 
-      {/* Screen Scanners */}
+      {/* Visual Effect: Screen Scanners */}
       <div className="absolute inset-0 pointer-events-none bg-[length:100%_4px] opacity-[0.02]" 
            style={{ backgroundImage: `linear-gradient(rgba(255,255,255,0) 50%, rgba(255,255,255,0.1) 50%)` }} />
     </main>
